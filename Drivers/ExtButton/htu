@@ -1,0 +1,37 @@
+  ExtButton_Init();				// TIM4
+    t_BtnAntiBouncing antiBounc_SetReset;
+	extBtn_SetReset.gpio = GPIOB;
+	extBtn_SetReset.pin = LL_GPIO_PIN_1;
+	extBtn_SetReset.type = EXT_BTN_TYPE_FALLING;
+	extBtn_SetReset.BtnInitFunc = (void*)ExtBtnStartReset_Init;
+	extBtn_SetReset.BthHandlerFunc = (void*)ExtBtnStartReset_Handler;//NULL;
+	extBtn_SetReset.antiBouncing = &antiBounc_SetReset;
+	ExtButton_Add(&extBtn_SetReset);
+	
+	
+	
+	/*
+ * Кнопка старта/сброса таймера
+ * Функция инициализации
+ */
+void ExtBtnStartReset_Init(void)
+{
+	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
+
+	LL_GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_1;
+	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+}
+/*
+ * Кнопка старта/сброса таймера
+ * Обработчик нажатия
+ */
+void ExtBtnStartReset_Handler(void)
+{
+	printf("Handler %02d\n", 23);
+}
+	
